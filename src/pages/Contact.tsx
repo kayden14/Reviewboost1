@@ -47,12 +47,11 @@ export default function Contact({ onNavigate }: ContactProps) {
 
   return (
     <div className="bg-white">
+      {/* Hero Section */}
       <section className="bg-gradient-to-br from-teal-600 to-emerald-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Contact Us
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
             <p className="text-xl text-teal-50">
               Have questions? We're here to help you succeed
             </p>
@@ -60,13 +59,14 @@ export default function Contact({ onNavigate }: ContactProps) {
         </div>
       </section>
 
+      {/* Main Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            {/* Contact Info */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Get In Touch
-              </h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Get In Touch</h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Whether you have questions about our services, need support, or want to explore partnership opportunities, we're here to help.
               </p>
@@ -90,7 +90,6 @@ export default function Contact({ onNavigate }: ContactProps) {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Live Chat</h3>
                     <p className="text-gray-600">Available Monday-Friday, 9AM-6PM EST</p>
-                    <p className="text-sm text-gray-500 mt-1">Click the chat icon in the bottom right</p>
                   </div>
                 </div>
 
@@ -105,16 +104,18 @@ export default function Contact({ onNavigate }: ContactProps) {
                   </div>
                 </div>
               </div>
-
-              <div className="mt-12 p-6 bg-teal-50 rounded-xl">
-                <h3 className="font-semibold text-gray-900 mb-2">Need Immediate Help?</h3>
-                <p className="text-gray-600 mb-4">
-                  Check out our FAQ section or use the live chat for quick answers to common questions.
-                </p>
-              </div>
             </div>
 
+            {/* Contact Form */}
             <div className="bg-white rounded-2xl shadow-xl p-8">
+              {/* Back to Home Button */}
+              <button
+                onClick={() => onNavigate('home')}
+                className="mb-6 text-teal-600 hover:text-teal-800 font-medium"
+              >
+                &larr; Back to Home
+              </button>
+
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
 
               {success && (
@@ -198,6 +199,7 @@ export default function Contact({ onNavigate }: ContactProps) {
                 </button>
               </form>
             </div>
+
           </div>
         </div>
       </section>

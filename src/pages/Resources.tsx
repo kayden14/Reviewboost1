@@ -3,11 +3,11 @@ import { supabase, Resource } from '../lib/supabase';
 import { BookOpen, Video, Users, FileText, ExternalLink } from 'lucide-react';
 
 type ResourcesProps = {
-  onNavigate: (page: string) => void;
+  onNavigate?: (page: string) => void; // optional now
   recommendedSkills?: string[];
 };
 
-export default function Resources({ onNavigate, recommendedSkills = [] }: ResourcesProps) {
+export default function Resources({ recommendedSkills = [] }: ResourcesProps) {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('all');
@@ -22,7 +22,6 @@ export default function Resources({ onNavigate, recommendedSkills = [] }: Resour
         .from('resources')
         .select('*')
         .order('created_at', { ascending: false });
-
       setResources(data || []);
     } catch (error) {
       console.error('Error loading resources:', error);
@@ -65,6 +64,7 @@ export default function Resources({ onNavigate, recommendedSkills = [] }: Resour
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Learning Resources</h1>
           <p className="text-gray-600 mt-2">
@@ -72,6 +72,7 @@ export default function Resources({ onNavigate, recommendedSkills = [] }: Resour
           </p>
         </div>
 
+        {/* Recommended Section */}
         {recommendedSkills.length > 0 && (
           <div className="mb-8 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-3">
@@ -112,59 +113,24 @@ export default function Resources({ onNavigate, recommendedSkills = [] }: Resour
           </div>
         )}
 
+        {/* Filter Buttons */}
         <div className="mb-6 flex flex-wrap gap-2">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filter === 'all'
-                ? 'bg-teal-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            All Resources
-          </button>
-          <button
-            onClick={() => setFilter('course')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filter === 'course'
-                ? 'bg-teal-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            Courses
-          </button>
-          <button
-            onClick={() => setFilter('mentorship')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filter === 'mentorship'
-                ? 'bg-teal-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            Mentorship
-          </button>
-          <button
-            onClick={() => setFilter('template')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filter === 'template'
-                ? 'bg-teal-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            Templates
-          </button>
-          <button
-            onClick={() => setFilter('guide')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              filter === 'guide'
-                ? 'bg-teal-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            Guides
-          </button>
+          {['all', 'course', 'mentorship', 'template', 'guide'].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                filter === cat
+                  ? 'bg-teal-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              {cat === 'all' ? 'All Resources' : cat.charAt(0).toUpperCase() + cat.slice(1) + 's'}
+            </button>
+          ))}
         </div>
 
+        {/* Resource Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredResources.map((resource) => {
             const Icon = getCategoryIcon(resource.category);
@@ -181,9 +147,7 @@ export default function Resources({ onNavigate, recommendedSkills = [] }: Resour
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
                   {resource.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  {resource.description}
-                </p>
+                <p className="text-gray-600 text-sm mb-4">{resource.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {resource.skill_tags.map((tag, index) => (
                     <span key={index} className="px-2 py-1 bg-teal-50 text-teal-700 rounded text-xs">
@@ -205,6 +169,7 @@ export default function Resources({ onNavigate, recommendedSkills = [] }: Resour
           })}
         </div>
 
+        {/* No Resources Fallback */}
         {filteredResources.length === 0 && (
           <div className="text-center py-12">
             <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />

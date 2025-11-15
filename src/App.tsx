@@ -40,6 +40,7 @@ function AppContent() {
   }
 
   const renderPage = () => {
+    // Pages for non-authenticated users
     if (!user) {
       switch (currentPage) {
         case 'home':
@@ -59,6 +60,7 @@ function AppContent() {
       }
     }
 
+    // Pages for admin
     if (profile?.role === 'admin') {
       switch (currentPage) {
         case 'admin-dashboard':
@@ -72,6 +74,7 @@ function AppContent() {
       }
     }
 
+    // Pages for authenticated freelancers
     switch (currentPage) {
       case 'freelancer-dashboard':
         return <FreelancerDashboard onNavigate={setCurrentPage} />;
@@ -100,12 +103,10 @@ function AppContent() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <AuthProvider>
       <AppContent />
     </AuthProvider>
   );
 }
-
-export default App;
